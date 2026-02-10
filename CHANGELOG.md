@@ -1,0 +1,70 @@
+# Changelog
+
+All notable changes to WLED Manager will be documented in this file.
+
+## [1.1.1] - 2026-02-10
+
+### Fixed
+- **WiFi AP IP Assignment**: Fixed wlan0 IP assignment to work when hostapd makes interface unmanaged
+- Changed from NetworkManager-based IP assignment to direct `ip` command
+- Added boot-time wlan0 IP assignment service for persistence across reboots
+- WiFi AP now properly configures and survives system restarts
+
+### Technical
+- Updated `wifi_ap_manager.py` to use direct IP commands instead of NetworkManager
+- Added `wlan0-ip.service` systemd service for boot-time IP assignment
+- WiFi AP IP saved to `/etc/hostapd/wlan0-ip.conf` for boot service
+
+## [1.1.0] - 2026-02-10
+
+### Added
+- **WiFi Access Point Management**: Create wireless networks for iPad/device connectivity
+  - Web interface for WiFi AP configuration
+  - Configure SSID, password, channel, and IP settings
+  - Enable/disable/restart WiFi AP controls
+  - Real-time connected clients display
+  - Automatic DHCP configuration for WiFi interface
+- Optional WiFi AP installation during setup
+- WiFi menu item in navigation
+
+### Changed
+- Updated base template with WiFi AP navigation
+- Enhanced install script with WiFi AP option
+- Updated documentation with WiFi AP usage instructions
+
+### Technical
+- New `wifi_ap_manager.py` module for hostapd management
+- New `/api/wifi/*` API endpoints
+- New `wifi_ap.html` template
+- iOS/iPad compatibility improvements in DHCP configuration
+
+## [1.0.0] - 2026-02-10
+
+### Added
+- Initial stable release
+- USB Ethernet adapter detection and configuration
+- Automatic DHCP configuration with iOS compatibility
+- WLED controller discovery and scanning
+- MAC-based IP reservations
+- Web interface with Bootstrap UI
+- Dashboard with system status
+- RTL8153 USB adapter support
+- Boot-time USB adapter initialization
+- dnsmasq timing fixes for reliable boot
+
+### Features
+- Adapters page for USB Ethernet management
+- WLED Devices page for controller discovery
+- Automatic gateway and DNS DHCP options
+- Real-time status updates
+- NetworkManager integration
+
+### Documentation
+- Complete README with installation instructions
+- Troubleshooting guide
+- Hardware compatibility notes
+- Technical architecture documentation
+
+### Known Issues
+- RTL8151 USB adapters have reliability issues (use RTL8153 instead)
+- WiFi AP and WiFi client mode cannot run simultaneously
