@@ -1,0 +1,15 @@
+[Unit]
+Description=WiFi Access Point IP Assignment
+After=network.target sys-subsystem-net-devices-wlan0.device
+Wants=sys-subsystem-net-devices-wlan0.device
+Before=hostapd.service dnsmasq.service
+
+[Service]
+Type=oneshot
+# Wait for wlan0 to exist (up to 30 seconds)
+ExecStartPre=/bin/bash -c 'for i in {1..30}; do [ -e /sys/class/net/wlan0 ] && break || sleep 1; done'
+ExecStart=/bin/bash -c 'WLAN0_IP=$(cat /etc/hostapd/wlan0-ip.conf 2>/dev/null || echo "10.0.2.1"); /usr/sbin/ip addr flush dev wlan0 2>/dev/null || true; /usr/sbin/ip addr add $WLAN0_IP/24 dev wlan0 || exit 0; /usr/sbin/ip link set wlan0 up || true'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
